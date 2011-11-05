@@ -1,0 +1,4 @@
+-p(var_x) | q(var_x).
+-q(var_x1) | r(var_x1).
+p(tom).
+-r(tom).

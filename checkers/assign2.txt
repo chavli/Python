@@ -1,0 +1,181 @@
+===========================================================================
+CS2710 ISSP 2610 Foundations of Artificial Intelligence
+              Fall 2011
+
+      Assignment 2:  Checkers!
+        Written by Chenhai Xi
+Adapted for Fall 2011 by Mykolas Dapkus
+
+**THIS MUST be your own individual work.**  
+
+The purpose of this assignment is to give you experience with mimimax
+search with alpha beta pruning, and with developing heuristics.
+
+Your task is to figure out or automatically create heuristic
+functions, implement them, and then perform experiments exploring
+their performance.
+
+The TA will run all of your programs so that each of you plays the
+other.  See if you can win!
+
+Your assignment will be graded on:
+   Correctness
+   Interestingness of the heuristics (and cutoff test, if you
+      experiment with that)
+   Quality of experiments and report
+
+   Bonus points will be awarded for people who do well in the
+   tournament based on:
+
+       how many other programs your program beats
+
+       the time efficiency of your program.  Chenhai's driver program
+       will measure the time taken by each program.
+
+The rules of checkers are now posted on the course schedule.
+I got them from:  www.jimloy.com/checkers/rules2.htm
+
+-------------------------------------------------------------------
+*** Please submit your solution to the incoming folder in AFS:
+	/afs/cs.pitt.edu/public/incoming/CS2710/
+	
+	Please submit one thing (tarball, zipfile) containing: your report, your code,
+    any required input files, and a README file explaining how to run
+    your program.
+
+    If you wish to submit a correction, please append a version number to the new
+	archive to indicate this version should be graded instead. For example, if the
+	original file was "msd44_hw2.tar" then please submit "msd44_hw2_v2.tar" as the
+	updated version.
+	
+	Please submit by 11:59pm on the due date to avoid a late penalty.
+***
+--------------------------------------------------------------------
+Two python codes are provided: Checkers.py and driver.py. 
+You should implement heuristic functions in Checkers.py.
+The driver.py is used to play two versions of Checkers against each other. 
+
+1) The format for a state is as follows:  
+
+It is a list of lists.  Each inner list represents a row of the
+checkers board.  Individual elements on the checker board are denoted
+by characters: "."  (no piece), "b" (a black checker), "r" (a red
+checker), "B" (a kinged black piece) and "R" (a kinged red piece).
+
+Here is the initial configuration of the board:
+
+7 : . r . r . r . r
+6 : r . r . r . r .
+5 : . r . r . r . r
+4 : . . . . . . . .
+3 : . . . . . . . .
+2 : b . b . b . b .
+1 : . b . b . b . b
+0 : b . b . b . b .
+    0 1 2 3 4 5 6 7
+
+Here is its representation in Python:
+
+[ ['b','.','b','.','b','.','b','.'],\
+  ['.','b','.','b','.','b','.','b'],\
+  ['b','.','b','.','b','.','b','.'],\
+  ['.','.','.','.','.','.','.','.'],\
+  ['.','.','.','.','.','.','.','.'],\
+  ['.','r','.','r','.','r','.','r'],\
+  ['r','.','r','.','r','.','r','.'],\
+  ['.','r','.','r','.','r','.','r'] ]
+
+2) The format for a move is as follows:
+
+It is a list of tuples, where each tuple represents a position (x,y)
+counting from 0,0 in the lower left corner.  The first tuple in the
+list represents the initial position of the checker; the ith tuple
+represents the ith move in the hop; and the last tuple represents the
+final position of the checker.  For example, if a move involves two
+hops, the path might look like this:
+
+[(1,1), (3,3), (5,5)]
+
+3) The heuristic and cutoff function 
+A very simple (and bad) heuristic function is already implemented in Checker.py.
+You should create two new heuristic functions (you'll submit your best
+one for the class tournament).
+
+Definition:
+def hfun(state,space,player):
+
+state: refer to 1) above
+space: used only for output
+player: 'r', or 'b'
+
+Return value: a number.  
+
+In Chenhai's code, the cutoff function simply encodes a fixed cutoff
+depth of 5.  You can change the cutoff strategy and/or specific depth,
+but please be careful that your search time does not become too great.
+If your program takes more than one minute for one move, we'll need
+need to make the judgment that your program is lost.
+
+4) Note: 
+
+In Checkers.py, you should only change the heuristic function (hfun)
+and the cutoff function.  If you want to change other things, please
+contact the TA to arrange how your program will be evaluated.  Also,
+you may not be able to participate in the class tournament (if your
+code isn't compatible).
+
+5) Create two heuristics.  There are several avenues to pursue to make
+this interesting, including automatic methods for developing
+heuristics.  
+
+Use Chenhai's driver.py program to play one heuristic against
+another.  Be sure to test them in the two cases where they start from
+the initial board but taking turns going first.
+
+But two games won't give us much information.  So, to explore the
+quality of the heuristics, you should do the following.  Pretend that
+games are already in progress, and your heuristic players need to step
+in and finish the games.  Do this repeatedly, and you will get an idea
+how well each heuristic performs in different board configurations.
+
+Practically, this means you should modify Chenhai's driver.py so that
+(1) it plays many games, and (2) the line "state = Initial_Board" is
+replaced by a function call which returns a random (but legal) initial
+configuration.  Also, record relevant information, that will enable
+you to report statistics about how often and under what circumstances
+each heuristic wins.
+ 
+6) What should you submit?
+
+(1) A report:
+
+       a)  describe your heuristic functions and cutoff tests.  For
+       heuristics you thought of yourself, explain why you thought it
+       would be good (i.e., your motivations for trying them).  For
+       heuristics you automatically developed, explain the process.
+           
+       b)  describe the results of your experiments, and what they
+       tell us about the performance of your heuristics.
+
+(2) Your code for Checkers with your best heuristic included (you
+	don't need to hand in code for the other heuristics or your
+	modified driver.py).
+
+	Please name your file 
+	<student first name><student last name>Checkers.py.  
+	
+	For example, my program would be named ChenhaiXiCheckers.py  
+	Please place your entire program in a single file.
+
+7) To play two checkers programs "checkers1.py" and "checkers2.py" against each other,
+change the last line of driver.py 
+
+from
+	play("Checkers","Checkers")
+to 
+	play("checkers1","checkers2")
+
+
+8) If you find any bug in the original code, Please contact the TA. 
+You might get extra points, if the bug is significant.
+

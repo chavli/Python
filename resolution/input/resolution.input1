@@ -1,0 +1,41 @@
+#EXAMPLE:
+#All hounds howl at night.
+#all X (hound(X) -> howl(X)).
+#
+#Anyone who has any cats will not have any mice.
+#all X all Y (have(X,Y) & cat(Y) ->
+#   (-(exists Z 
+#      (have(X,Z) & mouse(Z))))).
+#
+#Light sleepers do not have anything which howls at night.
+#all X (ls(X) -> (-(exists Y
+#       (have(X,Y) & howl(Y))))).
+#
+#John has either a cat or a hound.
+#exists X (have(john,X) &
+#     (cat(X) | hound(X))).
+#
+#Conclusion:  if John is a light sleeper, then John does not have any
+#   mice.
+#
+#Negation of the goal:
+#-(ls(john) -> (-(exists Z 
+#   (have(john,Z) & mouse(Z))))).
+#
+#Clausal form:
+#1. -hound(X)|howl(X).
+#2. -have(X2,Y2)| -cat(Y2)| -have(X2,Z2)| -mouse(Z2).
+#3. -ls(X3)| -have(X3,Y3)| -howl(Y3).
+#4.a   have(john,$c1).
+#4.b   cat($c1)|hound($c1).
+#5.a   ls(john).
+#5.b   have(john,$c2).
+#5.c   mouse($c2).
+-hound(var_x)|howl(var_x).
+-have(var_x2,var_y2)| -cat(var_y2)| -have(var_x2,var_z2)| -mouse(var_z2).
+-ls(var_x3)| -have(var_x3,var_y3)| -howl(var_y3).
+have(john,c1).
+cat(c1)|hound(c1).
+ls(john).
+have(john,c2).
+mouse(c2).
