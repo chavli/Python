@@ -1,0 +1,426 @@
+['assign4code.py', '4']
+at(spare,ground)   clear(axle)   
+-------------------
+   putonSpareAxle   
+-------------------
+at(spare,axle)   DEL:at(spare,ground)   DEL:clear(axle)   
+ 
+ 
+at(spare,trunk)   
+-------------------
+  removeSpareTrunk  
+-------------------
+at(spare,ground)   DEL:at(spare,trunk)   
+ 
+ 
+
+-------------------
+   leaveOvernight   
+-------------------
+DEL:at(spare,ground)   DEL:at(spare,axle)   DEL:at(spare,trunk)   DEL:at(flat,ground)   DEL:at(flat,axle)   
+ 
+ 
+ 
+ 
+at(flat,axle)   
+-------------------
+   removeFlatAxle   
+-------------------
+at(flat,ground)   clear(axle)   DEL:at(flat,axle)   
+ 
+ 
+
+initial props: ['at(flat,axle)', 'at(spare,trunk)']
+
+goal props: ['at(spare,axle)']
+
+add list:  {'leaveOvernight': [], 'removeFlatAxle': ['at(flat,ground)', 'clear(axle)'], 'init': ['at(flat,axle)', 'at(spare,trunk)'], 'putonSpareAxle': ['at(spare,axle)'], 'removeSpareTrunk': ['at(spare,ground)'], 'goal': []}
+
+precond list:  {'goal': ['at(spare,axle)'], 'removeFlatAxle': ['at(flat,axle)'], 'init': [], 'putonSpareAxle': ['at(spare,ground)', 'clear(axle)'], 'removeSpareTrunk': ['at(spare,trunk)'], 'leaveOvernight': []}
+
+delete list:  {'leaveOvernight': ['at(spare,ground)', 'at(spare,axle)', 'at(spare,trunk)', 'at(flat,ground)', 'at(flat,axle)'], 'removeFlatAxle': ['at(flat,axle)'], 'init': [], 'putonSpareAxle': ['at(spare,ground)', 'clear(axle)'], 'removeSpareTrunk': ['at(spare,trunk)'], 'goal': []}
+
+
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (at(spare,axle), goal)
+=========
+Len of fringe: 1
+fringe[0].state: plan1 ---
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (at(spare,axle), goal)
+-------------
+[STATUS] Working on open condition:  ('at(spare,axle)', 'goal')
+[STATUS] Added Step:  putonSpareAxle
+[STATUS] Added New Order Condition:  ('putonSpareAxle', 'goal')
+[STATUS] Added New Causal Link:  ('putonSpareAxle', 'at(spare,axle)', 'goal')
+[STATUS] Removing Open Condition:  ('at(spare,axle)', 'goal')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan2 ---
+
+plan2 -----
+RESOLVED OPEN CONDITION: putonSpareAxle satifies at(spare,axle)
+steps: ['init', 'goal', '0.putonSpareAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+ordering constraints:
+  (putonSpareAxle < goal)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+  (clear(axle), putonSpareAxle)
+parent: plan plan1
+-------------
+[STATUS] Working on open condition:  ('clear(axle)', 'putonSpareAxle')
+[STATUS] Added Step:  removeFlatAxle
+[STATUS] Added New Order Condition:  ('removeFlatAxle', 'putonSpareAxle')
+[STATUS] Added New Causal Link:  ('removeFlatAxle', 'clear(axle)', 'putonSpareAxle')
+[STATUS] Removing Open Condition:  ('clear(axle)', 'putonSpareAxle')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan3 ---
+
+plan3 -----
+RESOLVED OPEN CONDITION: removeFlatAxle satifies clear(axle)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+  (at(flat,axle), removeFlatAxle)
+threats:
+   (('removeFlatAxle', 'clear(axle)', 'putonSpareAxle'), 'putonSpareAxle')
+parent: plan plan2
+-------------
+[STATUS] Working on threat:  (('removeFlatAxle', 'clear(axle)', 'putonSpareAxle'), 'putonSpareAxle')
+[STATUS] Threat resolved through promotion: ('putonSpareAxle', 'putonSpareAxle')
+=========
+Len of fringe: 1
+fringe[0].state: plan4 ---
+
+plan4 -----
+RESOLVED THREAT: consumer of clause(putonSpareAxle) ordered before putonSpareAxle
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+  (at(flat,axle), removeFlatAxle)
+parent: plan plan3
+-------------
+[STATUS] Working on open condition:  ('at(flat,axle)', 'removeFlatAxle')
+[STATUS] Added New Order Condition:  ('init', 'removeFlatAxle')
+[STATUS] Added New Causal Link:  ('init', 'at(flat,axle)', 'removeFlatAxle')
+[STATUS] Removing Open Condition:  ('at(flat,axle)', 'removeFlatAxle')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan5 ---
+
+plan5 -----
+RESOLVED OPEN CONDITION: init satifies at(flat,axle)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+threats:
+   (('init', 'at(flat,axle)', 'removeFlatAxle'), 'removeFlatAxle')
+parent: plan plan4
+-------------
+[STATUS] Working on open condition:  ('at(spare,ground)', 'putonSpareAxle')
+[STATUS] Added Step:  removeSpareTrunk
+[STATUS] Added New Order Condition:  ('removeSpareTrunk', 'putonSpareAxle')
+[STATUS] Added New Causal Link:  ('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle')
+[STATUS] Removing Open Condition:  ('at(spare,ground)', 'putonSpareAxle')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan6 ---
+
+plan6 -----
+RESOLVED OPEN CONDITION: removeSpareTrunk satifies at(spare,ground)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+open conditions:
+  (at(spare,trunk), removeSpareTrunk)
+threats:
+   (('init', 'at(flat,axle)', 'removeFlatAxle'), 'removeFlatAxle')
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+parent: plan plan5
+-------------
+[STATUS] Working on threat:  (('init', 'at(flat,axle)', 'removeFlatAxle'), 'removeFlatAxle')
+[STATUS] Threat resolved through promotion: ('removeFlatAxle', 'removeFlatAxle')
+=========
+Len of fringe: 1
+fringe[0].state: plan7 ---
+
+plan7 -----
+RESOLVED THREAT: consumer of clause(removeFlatAxle) ordered before removeFlatAxle
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+open conditions:
+  (at(spare,trunk), removeSpareTrunk)
+threats:
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+parent: plan plan6
+-------------
+[STATUS] Working on open condition:  ('at(spare,trunk)', 'removeSpareTrunk')
+[STATUS] Added New Order Condition:  ('init', 'removeSpareTrunk')
+[STATUS] Added New Causal Link:  ('init', 'at(spare,trunk)', 'removeSpareTrunk')
+[STATUS] Removing Open Condition:  ('at(spare,trunk)', 'removeSpareTrunk')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan8 ---
+
+plan8 -----
+RESOLVED OPEN CONDITION: init satifies at(spare,trunk)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+  (init < at(spare,trunk) < removeSpareTrunk)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+  (init < removeSpareTrunk)
+threats:
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+   (('init', 'at(spare,trunk)', 'removeSpareTrunk'), 'removeSpareTrunk')
+parent: plan plan7
+-------------
+[STATUS] Working on threat:  (('init', 'at(spare,trunk)', 'removeSpareTrunk'), 'removeSpareTrunk')
+[STATUS] Threat resolved through promotion: ('removeSpareTrunk', 'removeSpareTrunk')
+=========
+Len of fringe: 1
+fringe[0].state: plan9 ---
+
+plan9 -----
+RESOLVED THREAT: consumer of clause(removeSpareTrunk) ordered before removeSpareTrunk
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+  (init < at(spare,trunk) < removeSpareTrunk)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+  (init < removeSpareTrunk)
+threats:
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+parent: plan plan8
+-------------
+[STATUS] Working on threat:  (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+[STATUS] Threat resolved through promotion: ('putonSpareAxle', 'putonSpareAxle')
+=========
+Len of fringe: 1
+
+Result:**********************
+
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (at(spare,axle), goal)
+threats:
+   (('removeFlatAxle', 'clear(axle)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan2 -----
+RESOLVED OPEN CONDITION: putonSpareAxle satifies at(spare,axle)
+steps: ['init', 'goal', '0.putonSpareAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+ordering constraints:
+  (putonSpareAxle < goal)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+  (clear(axle), putonSpareAxle)
+threats:
+   (('removeFlatAxle', 'clear(axle)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan3 -----
+RESOLVED OPEN CONDITION: removeFlatAxle satifies clear(axle)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+  (at(flat,axle), removeFlatAxle)
+threats:
+   (('removeFlatAxle', 'clear(axle)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan4 -----
+RESOLVED THREAT: consumer of clause(putonSpareAxle) ordered before putonSpareAxle
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+  (at(flat,axle), removeFlatAxle)
+threats:
+   (('init', 'at(flat,axle)', 'removeFlatAxle'), 'removeFlatAxle')
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan5 -----
+RESOLVED OPEN CONDITION: init satifies at(flat,axle)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+open conditions:
+  (at(spare,ground), putonSpareAxle)
+threats:
+   (('init', 'at(flat,axle)', 'removeFlatAxle'), 'removeFlatAxle')
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan6 -----
+RESOLVED OPEN CONDITION: removeSpareTrunk satifies at(spare,ground)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+open conditions:
+  (at(spare,trunk), removeSpareTrunk)
+threats:
+   (('init', 'at(flat,axle)', 'removeFlatAxle'), 'removeFlatAxle')
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan7 -----
+RESOLVED THREAT: consumer of clause(removeFlatAxle) ordered before removeFlatAxle
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+open conditions:
+  (at(spare,trunk), removeSpareTrunk)
+threats:
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+   (('init', 'at(spare,trunk)', 'removeSpareTrunk'), 'removeSpareTrunk')
+
+plan8 -----
+RESOLVED OPEN CONDITION: init satifies at(spare,trunk)
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+  (init < at(spare,trunk) < removeSpareTrunk)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+  (init < removeSpareTrunk)
+threats:
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+   (('init', 'at(spare,trunk)', 'removeSpareTrunk'), 'removeSpareTrunk')
+
+plan9 -----
+RESOLVED THREAT: consumer of clause(removeSpareTrunk) ordered before removeSpareTrunk
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+  (init < at(spare,trunk) < removeSpareTrunk)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+  (init < removeSpareTrunk)
+threats:
+   (('removeSpareTrunk', 'at(spare,ground)', 'putonSpareAxle'), 'putonSpareAxle')
+
+plan10 -----
+RESOLVED THREAT: consumer of clause(putonSpareAxle) ordered before putonSpareAxle
+steps: ['init', 'goal', '0.putonSpareAxle', '1.removeFlatAxle', '4.removeSpareTrunk']
+causal links:
+  (putonSpareAxle < at(spare,axle) < goal)
+  (removeFlatAxle < clear(axle) < putonSpareAxle)
+  (init < at(flat,axle) < removeFlatAxle)
+  (removeSpareTrunk < at(spare,ground) < putonSpareAxle)
+  (init < at(spare,trunk) < removeSpareTrunk)
+ordering constraints:
+  (putonSpareAxle < goal)
+  (removeFlatAxle < putonSpareAxle)
+  (init < removeFlatAxle)
+  (removeSpareTrunk < putonSpareAxle)
+  (init < removeSpareTrunk)

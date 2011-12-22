@@ -1,0 +1,9 @@
+CS2710_HW4.pdf -- assignment report
+assign4code.py -- main source file
+output/ -- contains verbose output for the flat tire, cleaning, and custom planning
+          scenarios
+          
+running the custom scenario:
+python assign4code.py 3
+          
+ 

@@ -1,0 +1,76 @@
+Start:*************
+Initial Clause Set:*************
+c1     q(tom) []
+c2     p(tom) []
+c3     -p(tom) []
+-----
+Result:**********************
+node2 whose state is:
+[] ['c3', 'c2']
+c1     q(tom) []
+c2     p(tom) []
+c3     -p(tom) []
+-----
+
+Start:*************
+Initial Clause Set:*************
+c1     p(tom) []
+c2     q(tom) []
+c3     -p(tom) []
+-----
+Result:**********************
+node2 whose state is:
+[] ['c3', 'c1']
+c1     p(tom) []
+c2     q(tom) []
+c3     -p(tom) []
+-----
+
+Start:*************
+Initial Clause Set:*************
+c1     -hound(var_x) | howl(var_x) []
+c2     -have(var_x2,var_y2) | -cat(var_y2) | -have(var_x2,var_z2) | -mouse(var_z2) []
+c3     -ls(var_x3) | -have(var_x3,var_y3) | -howl(var_y3) []
+c4     have(john,c1) []
+c5     cat(c1) | hound(c1) []
+c6     ls(john) []
+c7     have(john,c2) []
+c8     mouse(c2) []
+-----
+Result:**********************
+node65 whose state is:
+[] ['c56', 'c7']
+c56    -have(john,c2) ['c42', 'c6']
+c42    -have(john,c2) | -ls(john) ['c31', 'c4']
+c31    -have(john,c2) | -ls(var_x3) | -have(var_x3,c1) ['c22', 'c3']
+c22    -have(john,c2) | howl(c1) ['c15', 'c1']
+c15    -have(john,c2) | hound(c1) ['c10', 'c5']
+c10    -cat(c1) | -have(john,c2) ['c9', 'c4']
+c9     -have(var_x2,var_y2) | -cat(var_y2) | -have(var_x2,c2) ['c8', 'c2']
+c1     -hound(var_x) | howl(var_x) []
+c2     -have(var_x2,var_y2) | -cat(var_y2) | -have(var_x2,var_z2) | -mouse(var_z2) []
+c3     -ls(var_x3) | -have(var_x3,var_y3) | -howl(var_y3) []
+c4     have(john,c1) []
+c5     cat(c1) | hound(c1) []
+c6     ls(john) []
+c7     have(john,c2) []
+c8     mouse(c2) []
+-----
+
+Start:*************
+Initial Clause Set:*************
+c1     -p(var_x)) | q(var_x) []
+c2     -q(var_x1)) | r(var_x1) []
+c3     p(tom) []
+c4     -r(tom) []
+-----
+Result:**********************
+node5 whose state is:
+[] ['c6', 'c3']
+c6     -p(var_x)) ['c5', 'c1']
+c5     -q(var_x1)) ['c4', 'c2']
+c1     -p(var_x)) | q(var_x) []
+c2     -q(var_x1)) | r(var_x1) []
+c3     p(tom) []
+c4     -r(tom) []
+-----

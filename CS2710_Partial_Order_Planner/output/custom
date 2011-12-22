@@ -1,0 +1,2104 @@
+['assign4code.py', '3']
+not-buggy-code   
+-------------------
+    writeReport    
+-------------------
+have-report   DEL:not-have-report   
+ 
+ 
+use-bathroom   
+-------------------
+    useBathroom    
+-------------------
+not-use-bathroom   DEL:use-bathroom   
+ 
+ 
+hungry   
+-------------------
+      eatFood      
+-------------------
+not-hungry   DEL:not-hungry   
+ 
+ 
+ 
+ 
+at-home   tired   
+-------------------
+     sleepInBed     
+-------------------
+hungry   not-tired   DEL:tired   DEL:not-hungry   
+ 
+ 
+not-tired   not-at-home   not-hungry   
+-------------------
+     writeCode     
+-------------------
+buggy-code   
+ 
+ 
+at-home   not-tired   
+-------------------
+     playSkyrim     
+-------------------
+hungry   tired   use-bathroom   DEL:not-tired   DEL:not-use-bathroom   DEL:not-hungry   
+ 
+ 
+buggy-code   not-use-bathroom   
+-------------------
+     debugCode     
+-------------------
+not-buggy-code   not-code-compressed   DEL:buggy-code   
+ 
+ 
+not-at-home   tired   
+-------------------
+    drinkCoffee    
+-------------------
+not-tired   DEL:tired   
+ 
+ 
+not-buggy-code   
+-------------------
+    compressCode    
+-------------------
+code-compressed   DEL:not-code-compressed   
+ 
+ 
+
+initial props: ['hungry', 'tired', 'not-at-home', 'use-bathroom']
+
+goal props: ['have-report', 'code-compressed', 'not-at-home']
+
+add list:  {'writeReport': ['have-report'], 'sleepInBed': ['hungry', 'not-tired'], 'playSkyrim': ['hungry', 'tired', 'use-bathroom'], 'compressCode': ['code-compressed'], 'writeCode': ['buggy-code'], 'drinkCoffee': ['not-tired'], 'debugCode': ['not-buggy-code', 'not-code-compressed'], 'goal': [], 'init': ['hungry', 'tired', 'not-at-home', 'use-bathroom'], 'useBathroom': ['not-use-bathroom'], 'eatFood': ['not-hungry']}
+
+precond list:  {'writeReport': ['not-buggy-code'], 'sleepInBed': ['at-home', 'tired'], 'playSkyrim': ['at-home', 'not-tired'], 'compressCode': ['not-buggy-code'], 'writeCode': ['not-tired', 'not-at-home', 'not-hungry'], 'drinkCoffee': ['not-at-home', 'tired'], 'debugCode': ['buggy-code', 'not-use-bathroom'], 'goal': ['have-report', 'code-compressed', 'not-at-home'], 'init': [], 'useBathroom': ['use-bathroom'], 'eatFood': ['hungry']}
+
+delete list:  {'writeReport': ['not-have-report'], 'sleepInBed': ['tired', 'not-hungry'], 'playSkyrim': ['not-tired', 'not-use-bathroom', 'not-hungry'], 'compressCode': ['not-code-compressed'], 'writeCode': [], 'drinkCoffee': ['tired'], 'debugCode': ['buggy-code'], 'goal': [], 'init': [], 'useBathroom': ['use-bathroom'], 'eatFood': ['not-hungry']}
+
+
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (have-report, goal)
+  (code-compressed, goal)
+  (not-at-home, goal)
+=========
+Len of fringe: 1
+fringe[0].state: plan1 ---
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (have-report, goal)
+  (code-compressed, goal)
+  (not-at-home, goal)
+-------------
+[STATUS] Working on open condition:  ('code-compressed', 'goal')
+[STATUS] Added Step:  compressCode
+[STATUS] Added New Order Condition:  ('compressCode', 'goal')
+[STATUS] Added New Causal Link:  ('compressCode', 'code-compressed', 'goal')
+[STATUS] Removing Open Condition:  ('code-compressed', 'goal')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan2 ---
+
+plan2 -----
+RESOLVED OPEN CONDITION: compressCode satifies code-compressed
+steps: ['init', 'goal', '0.compressCode']
+causal links:
+  (compressCode < code-compressed < goal)
+ordering constraints:
+  (compressCode < goal)
+open conditions:
+  (have-report, goal)
+  (not-at-home, goal)
+  (not-buggy-code, compressCode)
+parent: plan plan1
+-------------
+[STATUS] Working on open condition:  ('have-report', 'goal')
+[STATUS] Added Step:  writeReport
+[STATUS] Added New Order Condition:  ('writeReport', 'goal')
+[STATUS] Added New Causal Link:  ('writeReport', 'have-report', 'goal')
+[STATUS] Removing Open Condition:  ('have-report', 'goal')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan3 ---
+
+plan3 -----
+RESOLVED OPEN CONDITION: writeReport satifies have-report
+steps: ['init', 'goal', '0.compressCode', '1.writeReport']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+open conditions:
+  (not-at-home, goal)
+  (not-buggy-code, compressCode)
+  (not-buggy-code, writeReport)
+parent: plan plan2
+-------------
+[STATUS] Working on open condition:  ('not-buggy-code', 'compressCode')
+[STATUS] Added Step:  debugCode
+[STATUS] Added New Order Condition:  ('debugCode', 'compressCode')
+[STATUS] Added New Causal Link:  ('debugCode', 'not-buggy-code', 'compressCode')
+[STATUS] Removing Open Condition:  ('not-buggy-code', 'compressCode')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan4 ---
+
+plan4 -----
+RESOLVED OPEN CONDITION: debugCode satifies not-buggy-code
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+open conditions:
+  (not-at-home, goal)
+  (buggy-code, debugCode)
+  (not-use-bathroom, debugCode)
+parent: plan plan3
+-------------
+[STATUS] Working on open condition:  ('buggy-code', 'debugCode')
+[STATUS] Added Step:  writeCode
+[STATUS] Added New Order Condition:  ('writeCode', 'debugCode')
+[STATUS] Added New Causal Link:  ('writeCode', 'buggy-code', 'debugCode')
+[STATUS] Removing Open Condition:  ('buggy-code', 'debugCode')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan5 ---
+
+plan5 -----
+RESOLVED OPEN CONDITION: writeCode satifies buggy-code
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-tired, writeCode)
+  (not-at-home, writeCode)
+  (not-hungry, writeCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+parent: plan plan4
+-------------
+[STATUS] Working on open condition:  ('not-tired', 'writeCode')
+[STATUS] Added Step:  sleepInBed
+[STATUS] Added New Order Condition:  ('sleepInBed', 'writeCode')
+[STATUS] Added New Causal Link:  ('sleepInBed', 'not-tired', 'writeCode')
+[STATUS] Removing Open Condition:  ('not-tired', 'writeCode')
+[STATUS] Found 0 threats
+[STATUS] Added Step:  drinkCoffee
+[STATUS] Added New Order Condition:  ('drinkCoffee', 'writeCode')
+[STATUS] Added New Causal Link:  ('drinkCoffee', 'not-tired', 'writeCode')
+[STATUS] Removing Open Condition:  ('not-tired', 'writeCode')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 2
+fringe[0].state: plan6 ---
+
+plan6 -----
+RESOLVED OPEN CONDITION: sleepInBed satifies not-tired
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-at-home, writeCode)
+  (not-hungry, writeCode)
+  (at-home, sleepInBed)
+  (tired, sleepInBed)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+parent: plan plan5
+-------------
+[STATUS] Working on open condition:  ('not-hungry', 'writeCode')
+[STATUS] Added Step:  eatFood
+[STATUS] Added New Order Condition:  ('eatFood', 'writeCode')
+[STATUS] Added New Causal Link:  ('eatFood', 'not-hungry', 'writeCode')
+[STATUS] Removing Open Condition:  ('not-hungry', 'writeCode')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 2
+fringe[0].state: plan7 ---
+
+plan7 -----
+RESOLVED OPEN CONDITION: drinkCoffee satifies not-tired
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-at-home, writeCode)
+  (not-hungry, writeCode)
+  (not-at-home, drinkCoffee)
+  (tired, drinkCoffee)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+parent: plan plan5
+-------------
+[STATUS] Working on open condition:  ('not-hungry', 'writeCode')
+[STATUS] Added Step:  eatFood
+[STATUS] Added New Order Condition:  ('eatFood', 'writeCode')
+[STATUS] Added New Causal Link:  ('eatFood', 'not-hungry', 'writeCode')
+[STATUS] Removing Open Condition:  ('not-hungry', 'writeCode')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 2
+fringe[0].state: plan8 ---
+
+plan8 -----
+RESOLVED OPEN CONDITION: eatFood satifies not-hungry
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-at-home, writeCode)
+  (at-home, sleepInBed)
+  (tired, sleepInBed)
+  (hungry, eatFood)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+parent: plan plan6
+-------------
+[STATUS] Working on open condition:  ('not-at-home', 'writeCode')
+[STATUS] Added New Order Condition:  ('init', 'writeCode')
+[STATUS] Added New Causal Link:  ('init', 'not-at-home', 'writeCode')
+[STATUS] Removing Open Condition:  ('not-at-home', 'writeCode')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 2
+fringe[0].state: plan10 ---
+
+plan10 -----
+RESOLVED OPEN CONDITION: init satifies not-at-home
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (hungry, eatFood)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+parent: plan plan8
+-------------
+[STATUS] Working on threat:  (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+[STATUS] Threat resolved through promotion: ('debugCode', 'debugCode')
+=========
+Len of fringe: 2
+fringe[0].state: plan11 ---
+
+plan11 -----
+RESOLVED THREAT: consumer of clause(debugCode) ordered before debugCode
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (hungry, eatFood)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+parent: plan plan10
+-------------
+[STATUS] Working on threat:  (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+[STATUS] Threat resolved through demotion: ('sleepInBed', 'eatFood')
+=========
+Len of fringe: 2
+fringe[0].state: plan12 ---
+
+plan12 -----
+RESOLVED THREAT: producer of clause(eatFood) ordered after sleepInBed
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (hungry, eatFood)
+parent: plan plan11
+-------------
+[STATUS] Working on open condition:  ('hungry', 'eatFood')
+[STATUS] Added New Causal Link:  ('sleepInBed', 'hungry', 'eatFood')
+[STATUS] Removing Open Condition:  ('hungry', 'eatFood')
+[STATUS] Found 1 threats
+[STATUS] Added Step:  playSkyrim
+[STATUS] Added New Order Condition:  ('playSkyrim', 'eatFood')
+[STATUS] Added New Causal Link:  ('playSkyrim', 'hungry', 'eatFood')
+[STATUS] Removing Open Condition:  ('hungry', 'eatFood')
+[STATUS] Found 2 threats
+[STATUS] Added New Order Condition:  ('init', 'eatFood')
+[STATUS] Added New Causal Link:  ('init', 'hungry', 'eatFood')
+[STATUS] Removing Open Condition:  ('hungry', 'eatFood')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 4
+fringe[0].state: plan9 ---
+
+plan9 -----
+RESOLVED OPEN CONDITION: eatFood satifies not-hungry
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-at-home, writeCode)
+  (not-at-home, drinkCoffee)
+  (tired, drinkCoffee)
+  (hungry, eatFood)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+parent: plan plan7
+-------------
+[STATUS] Working on open condition:  ('not-at-home', 'drinkCoffee')
+[STATUS] Added New Order Condition:  ('init', 'drinkCoffee')
+[STATUS] Added New Causal Link:  ('init', 'not-at-home', 'drinkCoffee')
+[STATUS] Removing Open Condition:  ('not-at-home', 'drinkCoffee')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 4
+fringe[0].state: plan16 ---
+
+plan16 -----
+RESOLVED OPEN CONDITION: init satifies not-at-home
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (tired, drinkCoffee)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+parent: plan plan9
+-------------
+[STATUS] Working on open condition:  ('tired', 'drinkCoffee')
+[STATUS] Added Step:  playSkyrim
+[STATUS] Added New Order Condition:  ('playSkyrim', 'drinkCoffee')
+[STATUS] Added New Causal Link:  ('playSkyrim', 'tired', 'drinkCoffee')
+[STATUS] Removing Open Condition:  ('tired', 'drinkCoffee')
+[STATUS] Found 3 threats
+[STATUS] Added New Causal Link:  ('init', 'tired', 'drinkCoffee')
+[STATUS] Removing Open Condition:  ('tired', 'drinkCoffee')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 5
+fringe[0].state: plan15 ---
+
+plan15 -----
+RESOLVED OPEN CONDITION: init satifies hungry
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (init < hungry < eatFood)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (init < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan12
+-------------
+[STATUS] Working on threat:  (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+[STATUS] Threat resolved through demotion: ('sleepInBed', 'eatFood')
+=========
+Len of fringe: 5
+fringe[0].state: plan18 ---
+
+plan18 -----
+RESOLVED OPEN CONDITION: init satifies tired
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+parent: plan plan16
+-------------
+[STATUS] Working on threat:  (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+[STATUS] Threat resolved through demotion: ('sleepInBed', 'eatFood')
+=========
+Len of fringe: 5
+fringe[0].state: plan19 ---
+
+plan19 -----
+RESOLVED THREAT: producer of clause(eatFood) ordered after sleepInBed
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (init < hungry < eatFood)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (init < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+threats:
+   (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan15
+-------------
+[STATUS] Working on open condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Added Step:  useBathroom
+[STATUS] Added New Order Condition:  ('useBathroom', 'debugCode')
+[STATUS] Added New Causal Link:  ('useBathroom', 'not-use-bathroom', 'debugCode')
+[STATUS] Removing Open Condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 5
+fringe[0].state: plan20 ---
+
+plan20 -----
+RESOLVED THREAT: producer of clause(eatFood) ordered after sleepInBed
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+parent: plan plan18
+-------------
+[STATUS] Working on threat:  (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+[STATUS] Threat resolved through promotion: ('drinkCoffee', 'drinkCoffee')
+=========
+Len of fringe: 5
+fringe[0].state: plan22 ---
+
+plan22 -----
+RESOLVED THREAT: consumer of clause(drinkCoffee) ordered before drinkCoffee
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan20
+-------------
+[STATUS] Working on threat:  (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+[STATUS] Threat resolved through demotion: ('playSkyrim', 'drinkCoffee')
+=========
+Len of fringe: 5
+fringe[0].state: plan23 ---
+
+plan23 -----
+RESOLVED THREAT: producer of clause(drinkCoffee) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan22
+-------------
+[STATUS] Working on threat:  (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+[STATUS] Threat resolved through promotion: ('drinkCoffee', 'drinkCoffee')
+=========
+Len of fringe: 5
+fringe[0].state: plan24 ---
+
+plan24 -----
+RESOLVED THREAT: consumer of clause(drinkCoffee) ordered before drinkCoffee
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan23
+-------------
+[STATUS] Working on open condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Added Step:  useBathroom
+[STATUS] Added New Order Condition:  ('useBathroom', 'debugCode')
+[STATUS] Added New Causal Link:  ('useBathroom', 'not-use-bathroom', 'debugCode')
+[STATUS] Removing Open Condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 5
+fringe[0].state: plan21 ---
+
+plan21 -----
+RESOLVED OPEN CONDITION: useBathroom satifies not-use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood', '11.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (init < hungry < eatFood)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (init < eatFood)
+  (useBathroom < debugCode)
+open conditions:
+  (at-home, sleepInBed)
+  (use-bathroom, useBathroom)
+threats:
+   (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan19
+-------------
+[STATUS] Working on open condition:  ('at-home', 'sleepInBed')
+=========
+Len of fringe: 4
+fringe[0].state: plan25 ---
+
+plan25 -----
+RESOLVED OPEN CONDITION: useBathroom satifies not-use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+open conditions:
+  (use-bathroom, useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan24
+-------------
+[STATUS] Working on open condition:  ('use-bathroom', 'useBathroom')
+[STATUS] Added Step:  playSkyrim
+[STATUS] Added New Order Condition:  ('playSkyrim', 'useBathroom')
+[STATUS] Added New Causal Link:  ('playSkyrim', 'use-bathroom', 'useBathroom')
+[STATUS] Removing Open Condition:  ('use-bathroom', 'useBathroom')
+[STATUS] Found 3 threats
+[STATUS] Added New Order Condition:  ('init', 'useBathroom')
+[STATUS] Added New Causal Link:  ('init', 'use-bathroom', 'useBathroom')
+[STATUS] Removing Open Condition:  ('use-bathroom', 'useBathroom')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 5
+fringe[0].state: plan17 ---
+
+plan17 -----
+RESOLVED OPEN CONDITION: playSkyrim satifies tired
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '7.playSkyrim']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (playSkyrim < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (playSkyrim < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+parent: plan plan16
+-------------
+[STATUS] Working on open condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Added Step:  useBathroom
+[STATUS] Added New Order Condition:  ('useBathroom', 'debugCode')
+[STATUS] Added New Causal Link:  ('useBathroom', 'not-use-bathroom', 'debugCode')
+[STATUS] Removing Open Condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 5
+fringe[0].state: plan13 ---
+
+plan13 -----
+RESOLVED OPEN CONDITION: sleepInBed satifies hungry
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (sleepInBed < hungry < eatFood)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (at-home, sleepInBed)
+  (tired, sleepInBed)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan12
+-------------
+[STATUS] Working on threat:  (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+[STATUS] Threat resolved through demotion: ('playSkyrim', 'sleepInBed')
+=========
+Len of fringe: 5
+fringe[0].state: plan14 ---
+
+plan14 -----
+RESOLVED OPEN CONDITION: playSkyrim satifies hungry
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood', '9.playSkyrim']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (playSkyrim < hungry < eatFood)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (playSkyrim < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan12
+-------------
+[STATUS] Working on threat:  (('sleepInBed', 'not-tired', 'writeCode'), 'playSkyrim')
+[STATUS] Threat resolved through demotion: ('playSkyrim', 'sleepInBed')
+=========
+Len of fringe: 5
+fringe[0].state: plan29 ---
+
+plan29 -----
+RESOLVED THREAT: producer of clause(sleepInBed) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (sleepInBed < hungry < eatFood)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (playSkyrim < sleepInBed)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (at-home, sleepInBed)
+  (tired, sleepInBed)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan13
+-------------
+[STATUS] Working on open condition:  ('at-home', 'sleepInBed')
+=========
+Len of fringe: 4
+fringe[0].state: plan30 ---
+
+plan30 -----
+RESOLVED THREAT: producer of clause(sleepInBed) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood', '9.playSkyrim']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (playSkyrim < hungry < eatFood)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (playSkyrim < eatFood)
+  (playSkyrim < sleepInBed)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (at-home, sleepInBed)
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+parent: plan plan14
+-------------
+[STATUS] Working on open condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Added Step:  useBathroom
+[STATUS] Added New Order Condition:  ('useBathroom', 'debugCode')
+[STATUS] Added New Causal Link:  ('useBathroom', 'not-use-bathroom', 'debugCode')
+[STATUS] Removing Open Condition:  ('not-use-bathroom', 'debugCode')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 4
+fringe[0].state: plan28 ---
+
+plan28 -----
+RESOLVED OPEN CONDITION: useBathroom satifies not-use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '7.playSkyrim', '8.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (playSkyrim < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+open conditions:
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+  (use-bathroom, useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+parent: plan plan17
+-------------
+[STATUS] Working on threat:  (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+[STATUS] Threat resolved through promotion: ('debugCode', 'debugCode')
+=========
+Len of fringe: 4
+fringe[0].state: plan31 ---
+
+plan31 -----
+RESOLVED OPEN CONDITION: useBathroom satifies not-use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.sleepInBed', '5.eatFood', '9.playSkyrim', '11.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (sleepInBed < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < writeCode)
+  (playSkyrim < hungry < eatFood)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (sleepInBed < writeCode)
+  (eatFood < writeCode)
+  (init < writeCode)
+  (sleepInBed < eatFood)
+  (playSkyrim < eatFood)
+  (playSkyrim < sleepInBed)
+  (useBathroom < debugCode)
+open conditions:
+  (at-home, sleepInBed)
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+  (use-bathroom, useBathroom)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+parent: plan plan30
+-------------
+[STATUS] Working on open condition:  ('not-tired', 'playSkyrim')
+[STATUS] Added New Order Condition:  ('sleepInBed', 'playSkyrim')
+[STATUS] Added New Causal Link:  ('sleepInBed', 'not-tired', 'playSkyrim')
+[STATUS] Removing Open Condition:  ('not-tired', 'playSkyrim')
+[STATUS] Found 1 threats
+[STATUS] Added Step:  drinkCoffee
+[STATUS] Added New Order Condition:  ('drinkCoffee', 'playSkyrim')
+[STATUS] Added New Causal Link:  ('drinkCoffee', 'not-tired', 'playSkyrim')
+[STATUS] Removing Open Condition:  ('not-tired', 'playSkyrim')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 5
+fringe[0].state: plan32 ---
+
+plan32 -----
+RESOLVED THREAT: consumer of clause(debugCode) ordered before debugCode
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '7.playSkyrim', '8.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (playSkyrim < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+open conditions:
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+  (use-bathroom, useBathroom)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+parent: plan plan28
+-------------
+[STATUS] Working on threat:  (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+[STATUS] Threat resolved through promotion: ('drinkCoffee', 'drinkCoffee')
+=========
+Len of fringe: 5
+fringe[0].state: plan35 ---
+
+plan35 -----
+RESOLVED THREAT: consumer of clause(drinkCoffee) ordered before drinkCoffee
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '7.playSkyrim', '8.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (playSkyrim < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+open conditions:
+  (at-home, playSkyrim)
+  (not-tired, playSkyrim)
+  (use-bathroom, useBathroom)
+threats:
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+parent: plan plan32
+-------------
+[STATUS] Working on open condition:  ('not-tired', 'playSkyrim')
+[STATUS] Added Step:  sleepInBed
+[STATUS] Added New Order Condition:  ('sleepInBed', 'playSkyrim')
+[STATUS] Added New Causal Link:  ('sleepInBed', 'not-tired', 'playSkyrim')
+[STATUS] Removing Open Condition:  ('not-tired', 'playSkyrim')
+[STATUS] Found 2 threats
+[STATUS] Added New Order Condition:  ('drinkCoffee', 'playSkyrim')
+[STATUS] Added New Causal Link:  ('drinkCoffee', 'not-tired', 'playSkyrim')
+[STATUS] Removing Open Condition:  ('not-tired', 'playSkyrim')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 6
+fringe[0].state: plan27 ---
+
+plan27 -----
+RESOLVED OPEN CONDITION: init satifies use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+parent: plan plan25
+-------------
+[STATUS] Working on threat:  (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+[STATUS] Threat resolved through demotion: ('playSkyrim', 'eatFood')
+=========
+Len of fringe: 6
+fringe[0].state: plan38 ---
+
+plan38 -----
+RESOLVED THREAT: producer of clause(eatFood) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+parent: plan plan27
+-------------
+[STATUS] Working on threat:  (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+[STATUS] Threat resolved through demotion: ('playSkyrim', 'useBathroom')
+=========
+Len of fringe: 6
+fringe[0].state: plan39 ---
+
+plan39 -----
+RESOLVED THREAT: producer of clause(useBathroom) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+parent: plan plan38
+-------------
+[STATUS] Working on threat:  (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+[STATUS] Threat resolved through demotion: ('playSkyrim', 'drinkCoffee')
+=========
+Len of fringe: 6
+fringe[0].state: plan40 ---
+
+plan40 -----
+RESOLVED THREAT: producer of clause(drinkCoffee) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+parent: plan plan39
+-------------
+[STATUS] Working on threat:  (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+[STATUS] Threat resolved through promotion: ('debugCode', 'debugCode')
+=========
+Len of fringe: 6
+fringe[0].state: plan41 ---
+
+plan41 -----
+RESOLVED THREAT: consumer of clause(debugCode) ordered before debugCode
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+parent: plan plan40
+-------------
+[STATUS] Working on threat:  (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+[STATUS] Threat resolved through promotion: ('useBathroom', 'useBathroom')
+=========
+Len of fringe: 6
+fringe[0].state: plan42 ---
+
+plan42 -----
+RESOLVED THREAT: consumer of clause(useBathroom) ordered before useBathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+parent: plan plan41
+-------------
+[STATUS] Working on threat:  (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+[STATUS] Threat resolved through promotion: ('useBathroom', 'useBathroom')
+=========
+Len of fringe: 6
+
+Result:**********************
+
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (have-report, goal)
+  (code-compressed, goal)
+  (not-at-home, goal)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan2 -----
+RESOLVED OPEN CONDITION: compressCode satifies code-compressed
+steps: ['init', 'goal', '0.compressCode']
+causal links:
+  (compressCode < code-compressed < goal)
+ordering constraints:
+  (compressCode < goal)
+open conditions:
+  (have-report, goal)
+  (not-at-home, goal)
+  (not-buggy-code, compressCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan3 -----
+RESOLVED OPEN CONDITION: writeReport satifies have-report
+steps: ['init', 'goal', '0.compressCode', '1.writeReport']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+open conditions:
+  (not-at-home, goal)
+  (not-buggy-code, compressCode)
+  (not-buggy-code, writeReport)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan4 -----
+RESOLVED OPEN CONDITION: debugCode satifies not-buggy-code
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+open conditions:
+  (not-at-home, goal)
+  (buggy-code, debugCode)
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan5 -----
+RESOLVED OPEN CONDITION: writeCode satifies buggy-code
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-tired, writeCode)
+  (not-at-home, writeCode)
+  (not-hungry, writeCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan7 -----
+RESOLVED OPEN CONDITION: drinkCoffee satifies not-tired
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-at-home, writeCode)
+  (not-hungry, writeCode)
+  (not-at-home, drinkCoffee)
+  (tired, drinkCoffee)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan9 -----
+RESOLVED OPEN CONDITION: eatFood satifies not-hungry
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+open conditions:
+  (not-at-home, goal)
+  (not-use-bathroom, debugCode)
+  (not-at-home, writeCode)
+  (not-at-home, drinkCoffee)
+  (tired, drinkCoffee)
+  (hungry, eatFood)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan16 -----
+RESOLVED OPEN CONDITION: init satifies not-at-home
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+  (tired, drinkCoffee)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan18 -----
+RESOLVED OPEN CONDITION: init satifies tired
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'sleepInBed')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+
+plan20 -----
+RESOLVED THREAT: producer of clause(eatFood) ordered after sleepInBed
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('init', 'tired', 'drinkCoffee'), 'drinkCoffee')
+
+plan22 -----
+RESOLVED THREAT: consumer of clause(drinkCoffee) ordered before drinkCoffee
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+
+plan23 -----
+RESOLVED THREAT: producer of clause(drinkCoffee) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'tired', 'drinkCoffee'), 'drinkCoffee')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+
+plan24 -----
+RESOLVED THREAT: consumer of clause(drinkCoffee) ordered before drinkCoffee
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+open conditions:
+  (not-use-bathroom, debugCode)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan25 -----
+RESOLVED OPEN CONDITION: useBathroom satifies not-use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+open conditions:
+  (use-bathroom, useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan27 -----
+RESOLVED OPEN CONDITION: init satifies use-bathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('eatFood', 'not-hungry', 'writeCode'), 'playSkyrim')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan38 -----
+RESOLVED THREAT: producer of clause(eatFood) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('useBathroom', 'not-use-bathroom', 'debugCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan39 -----
+RESOLVED THREAT: producer of clause(useBathroom) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('drinkCoffee', 'not-tired', 'writeCode'), 'playSkyrim')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan40 -----
+RESOLVED THREAT: producer of clause(drinkCoffee) ordered after playSkyrim
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('writeCode', 'buggy-code', 'debugCode'), 'debugCode')
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan41 -----
+RESOLVED THREAT: consumer of clause(debugCode) ordered before debugCode
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('playSkyrim', 'use-bathroom', 'useBathroom'), 'useBathroom')
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan42 -----
+RESOLVED THREAT: consumer of clause(useBathroom) ordered before useBathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)
+threats:
+   (('init', 'use-bathroom', 'useBathroom'), 'useBathroom')
+
+plan43 -----
+RESOLVED THREAT: consumer of clause(useBathroom) ordered before useBathroom
+steps: ['init', 'goal', '0.compressCode', '1.writeReport', '2.debugCode', '3.writeCode', '4.drinkCoffee', '5.eatFood', '12.useBathroom']
+causal links:
+  (compressCode < code-compressed < goal)
+  (writeReport < have-report < goal)
+  (debugCode < not-buggy-code < compressCode)
+  (writeCode < buggy-code < debugCode)
+  (drinkCoffee < not-tired < writeCode)
+  (eatFood < not-hungry < writeCode)
+  (init < not-at-home < drinkCoffee)
+  (init < tired < drinkCoffee)
+  (useBathroom < not-use-bathroom < debugCode)
+  (init < use-bathroom < useBathroom)
+ordering constraints:
+  (compressCode < goal)
+  (writeReport < goal)
+  (debugCode < compressCode)
+  (writeCode < debugCode)
+  (drinkCoffee < writeCode)
+  (eatFood < writeCode)
+  (init < drinkCoffee)
+  (sleepInBed < eatFood)
+  (playSkyrim < drinkCoffee)
+  (useBathroom < debugCode)
+  (init < useBathroom)
+  (playSkyrim < eatFood)
+  (playSkyrim < useBathroom)

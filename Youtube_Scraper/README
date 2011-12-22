@@ -1,0 +1,7 @@
+Youtube Scraper
+
+just a little fun scraping data from the youtube pages outlined in input.csv.
+
+scraper.py        --  the main file
+BeautifulSoup.py  --  a python *ML parser 
+input.csv         --  a huge file containing youtube celebrity profiles

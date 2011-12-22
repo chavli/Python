@@ -1,0 +1,391 @@
+['assign4code.py', '1']
+furniture-dusty   
+-------------------
+        dust        
+-------------------
+floor-dusty   furniture-clean   DEL:floor-not-dusty   DEL:furniture-dusty   
+ 
+ 
+floor-not-dusty   floor-dirty   
+-------------------
+     wash-floor     
+-------------------
+floor-clean   DEL:floor-dirty   
+ 
+ 
+floor-dusty   vaccuum-works   
+-------------------
+      vaccuum      
+-------------------
+DEL:floor-dusty   
+ 
+ 
+ 
+ 
+floor-dusty   
+-------------------
+       sweep       
+-------------------
+floor-not-dusty   DEL:floor-dusty   
+ 
+ 
+
+initial props: ['floor-dusty', 'floor-dirty', 'furniture-dusty', 'vaccuum-works']
+
+goal props: ['floor-clean', 'furniture-clean', 'floor-not-dusty']
+
+add list:  {'wash-floor': ['floor-clean'], 'goal': [], 'sweep': ['floor-not-dusty'], 'init': ['floor-dusty', 'floor-dirty', 'furniture-dusty', 'vaccuum-works'], 'vaccuum': [], 'dust': ['floor-dusty', 'furniture-clean']}
+
+precond list:  {'wash-floor': ['floor-not-dusty', 'floor-dirty'], 'goal': ['floor-clean', 'furniture-clean', 'floor-not-dusty'], 'sweep': ['floor-dusty'], 'init': [], 'vaccuum': ['floor-dusty', 'vaccuum-works'], 'dust': ['furniture-dusty']}
+
+delete list:  {'wash-floor': ['floor-dirty'], 'goal': [], 'sweep': ['floor-dusty'], 'init': [], 'vaccuum': ['floor-dusty'], 'dust': ['floor-not-dusty', 'furniture-dusty']}
+
+
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (floor-clean, goal)
+  (furniture-clean, goal)
+  (floor-not-dusty, goal)
+=========
+Len of fringe: 1
+fringe[0].state: plan1 ---
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (floor-clean, goal)
+  (furniture-clean, goal)
+  (floor-not-dusty, goal)
+-------------
+[STATUS] Working on open condition:  ('floor-clean', 'goal')
+[STATUS] Added Step:  wash-floor
+[STATUS] Added New Order Condition:  ('wash-floor', 'goal')
+[STATUS] Added New Causal Link:  ('wash-floor', 'floor-clean', 'goal')
+[STATUS] Removing Open Condition:  ('floor-clean', 'goal')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan2 ---
+
+plan2 -----
+RESOLVED OPEN CONDITION: wash-floor satifies floor-clean
+steps: ['init', 'goal', '0.wash-floor']
+causal links:
+  (wash-floor < floor-clean < goal)
+ordering constraints:
+  (wash-floor < goal)
+open conditions:
+  (furniture-clean, goal)
+  (floor-not-dusty, goal)
+  (floor-not-dusty, wash-floor)
+  (floor-dirty, wash-floor)
+parent: plan plan1
+-------------
+[STATUS] Working on open condition:  ('floor-not-dusty', 'goal')
+[STATUS] Added Step:  sweep
+[STATUS] Added New Order Condition:  ('sweep', 'goal')
+[STATUS] Added New Causal Link:  ('sweep', 'floor-not-dusty', 'goal')
+[STATUS] Removing Open Condition:  ('floor-not-dusty', 'goal')
+[STATUS] Found 0 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan3 ---
+
+plan3 -----
+RESOLVED OPEN CONDITION: sweep satifies floor-not-dusty
+steps: ['init', 'goal', '0.wash-floor', '1.sweep']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+open conditions:
+  (furniture-clean, goal)
+  (floor-dirty, wash-floor)
+  (floor-dusty, sweep)
+parent: plan plan2
+-------------
+[STATUS] Working on open condition:  ('floor-dirty', 'wash-floor')
+[STATUS] Added New Order Condition:  ('init', 'wash-floor')
+[STATUS] Added New Causal Link:  ('init', 'floor-dirty', 'wash-floor')
+[STATUS] Removing Open Condition:  ('floor-dirty', 'wash-floor')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan4 ---
+
+plan4 -----
+RESOLVED OPEN CONDITION: init satifies floor-dirty
+steps: ['init', 'goal', '0.wash-floor', '1.sweep']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+open conditions:
+  (furniture-clean, goal)
+threats:
+   (('init', 'floor-dirty', 'wash-floor'), 'wash-floor')
+parent: plan plan3
+-------------
+[STATUS] Working on threat:  (('init', 'floor-dirty', 'wash-floor'), 'wash-floor')
+[STATUS] Threat resolved through promotion: ('wash-floor', 'wash-floor')
+=========
+Len of fringe: 1
+fringe[0].state: plan5 ---
+
+plan5 -----
+RESOLVED THREAT: consumer of clause(wash-floor) ordered before wash-floor
+steps: ['init', 'goal', '0.wash-floor', '1.sweep']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+open conditions:
+  (furniture-clean, goal)
+parent: plan plan4
+-------------
+[STATUS] Working on open condition:  ('furniture-clean', 'goal')
+[STATUS] Added Step:  dust
+[STATUS] Added New Order Condition:  ('dust', 'goal')
+[STATUS] Added New Causal Link:  ('dust', 'furniture-clean', 'goal')
+[STATUS] Removing Open Condition:  ('furniture-clean', 'goal')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan6 ---
+
+plan6 -----
+RESOLVED OPEN CONDITION: dust satifies furniture-clean
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+open conditions:
+  (furniture-dusty, dust)
+threats:
+   (('sweep', 'floor-not-dusty', 'goal'), 'dust')
+parent: plan plan5
+-------------
+[STATUS] Working on threat:  (('sweep', 'floor-not-dusty', 'goal'), 'dust')
+[STATUS] Threat resolved through demotion: ('dust', 'sweep')
+=========
+Len of fringe: 1
+fringe[0].state: plan7 ---
+
+plan7 -----
+RESOLVED THREAT: producer of clause(sweep) ordered after dust
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+  (dust < sweep)
+open conditions:
+  (furniture-dusty, dust)
+parent: plan plan6
+-------------
+[STATUS] Working on open condition:  ('furniture-dusty', 'dust')
+[STATUS] Added New Order Condition:  ('init', 'dust')
+[STATUS] Added New Causal Link:  ('init', 'furniture-dusty', 'dust')
+[STATUS] Removing Open Condition:  ('furniture-dusty', 'dust')
+[STATUS] Found 1 threats
+=========
+Len of fringe: 1
+fringe[0].state: plan8 ---
+
+plan8 -----
+RESOLVED OPEN CONDITION: init satifies furniture-dusty
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+  (init < furniture-dusty < dust)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+  (dust < sweep)
+  (init < dust)
+threats:
+   (('init', 'furniture-dusty', 'dust'), 'dust')
+parent: plan plan7
+-------------
+[STATUS] Working on threat:  (('init', 'furniture-dusty', 'dust'), 'dust')
+[STATUS] Threat resolved through promotion: ('dust', 'dust')
+=========
+Len of fringe: 1
+
+Result:**********************
+
+
+plan1 -----
+steps: ['init', 'goal']
+open conditions:
+  (floor-clean, goal)
+  (furniture-clean, goal)
+  (floor-not-dusty, goal)
+threats:
+   (('init', 'floor-dirty', 'wash-floor'), 'wash-floor')
+
+plan2 -----
+RESOLVED OPEN CONDITION: wash-floor satifies floor-clean
+steps: ['init', 'goal', '0.wash-floor']
+causal links:
+  (wash-floor < floor-clean < goal)
+ordering constraints:
+  (wash-floor < goal)
+open conditions:
+  (furniture-clean, goal)
+  (floor-not-dusty, goal)
+  (floor-not-dusty, wash-floor)
+  (floor-dirty, wash-floor)
+threats:
+   (('init', 'floor-dirty', 'wash-floor'), 'wash-floor')
+
+plan3 -----
+RESOLVED OPEN CONDITION: sweep satifies floor-not-dusty
+steps: ['init', 'goal', '0.wash-floor', '1.sweep']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+open conditions:
+  (furniture-clean, goal)
+  (floor-dirty, wash-floor)
+  (floor-dusty, sweep)
+threats:
+   (('init', 'floor-dirty', 'wash-floor'), 'wash-floor')
+
+plan4 -----
+RESOLVED OPEN CONDITION: init satifies floor-dirty
+steps: ['init', 'goal', '0.wash-floor', '1.sweep']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+open conditions:
+  (furniture-clean, goal)
+threats:
+   (('init', 'floor-dirty', 'wash-floor'), 'wash-floor')
+
+plan5 -----
+RESOLVED THREAT: consumer of clause(wash-floor) ordered before wash-floor
+steps: ['init', 'goal', '0.wash-floor', '1.sweep']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+open conditions:
+  (furniture-clean, goal)
+threats:
+   (('sweep', 'floor-not-dusty', 'goal'), 'dust')
+
+plan6 -----
+RESOLVED OPEN CONDITION: dust satifies furniture-clean
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+open conditions:
+  (furniture-dusty, dust)
+threats:
+   (('sweep', 'floor-not-dusty', 'goal'), 'dust')
+
+plan7 -----
+RESOLVED THREAT: producer of clause(sweep) ordered after dust
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+  (dust < sweep)
+open conditions:
+  (furniture-dusty, dust)
+threats:
+   (('init', 'furniture-dusty', 'dust'), 'dust')
+
+plan8 -----
+RESOLVED OPEN CONDITION: init satifies furniture-dusty
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+  (init < furniture-dusty < dust)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+  (dust < sweep)
+  (init < dust)
+threats:
+   (('init', 'furniture-dusty', 'dust'), 'dust')
+
+plan9 -----
+RESOLVED THREAT: consumer of clause(dust) ordered before dust
+steps: ['init', 'goal', '0.wash-floor', '1.sweep', '4.dust']
+causal links:
+  (wash-floor < floor-clean < goal)
+  (sweep < floor-not-dusty < goal)
+  (init < floor-dirty < wash-floor)
+  (dust < furniture-clean < goal)
+  (init < furniture-dusty < dust)
+ordering constraints:
+  (wash-floor < goal)
+  (sweep < goal)
+  (init < wash-floor)
+  (dust < goal)
+  (dust < sweep)
+  (init < dust)
